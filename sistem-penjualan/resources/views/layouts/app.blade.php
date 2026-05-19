@@ -80,8 +80,7 @@
 
 <body>
     <div class="sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
-        <div class="offcanvas-header d-lg-none">
-            <h5 class="offcanvas-title text-white" id="sidebarOffcanvasLabel">SPEEDSHOP 2</h5>
+        <div class="offcanvas-header d-lg-none border-bottom border-white-25">
             <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="brand">

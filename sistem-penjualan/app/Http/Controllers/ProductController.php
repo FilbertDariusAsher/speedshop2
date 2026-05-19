@@ -105,7 +105,6 @@ class ProductController extends Controller
         return redirect('/produk')->with('success', 'Produk berhasil dihapus');
     }
 
-    // Halaman riwayat faktur pembelian
     public function fakturPembelianView(Request $request)
     {
         if (!in_array(auth()->user()->role, ['admin', 'owner'])) {
@@ -131,7 +130,6 @@ class ProductController extends Controller
         return view('faktur_pembelian', compact('invoices', 'products'));
     }
 
-    // Proses upload faktur
     public function uploadFaktur(Request $request)
     {
         if (!in_array(auth()->user()->role, ['admin', 'owner'])) {
@@ -159,7 +157,6 @@ class ProductController extends Controller
                 $product->harga_jual = $validated['new_harga_jual'];
             }
 
-            // Simpan file faktur ke direktori sementara yang writable di Vercel
             $file = $request->file('invoice_file');
             $filename = 'faktur_' . time() . '_' . $product->id . '.' . $file->getClientOriginalExtension();
             $tempDir = sys_get_temp_dir() . '/invoices';
@@ -172,11 +169,8 @@ class ProductController extends Controller
             try {
                 $file->move($tempDir, $filename);
             } catch (\Exception $e) {
-                // Jika penulisan file gagal di Vercel, biarkan proses tetap berjalan
-                // dan simpan data invoice agar stok tetap bertambah.
             }
 
-            // Simpan data invoice
             Invoice::create([
                 'product_id' => $product->id,
                 'stock_amount' => $stockAmount,
@@ -185,7 +179,6 @@ class ProductController extends Controller
                 'harga_beli' => $hargaBeli,
             ]);
 
-            // Update stok dan harga produk
             $product->stock += $stockAmount;
             $product->has_invoice = true;
             $product->save();
@@ -214,7 +207,7 @@ class ProductController extends Controller
         }
 
         $product = Product::findOrFail($id);
-        $action = $request->input('action'); // 'increase' or 'decrease'
+        $action = $request->input('action');
         $amount = $request->input('amount', 1);
 
         if ($action == 'increase') {
