@@ -25,6 +25,7 @@
             color: #fff;
             padding-top: 1rem;
             overflow-y: auto;
+            transition: transform 0.3s ease;
         }
 
         .sidebar a {
@@ -57,21 +58,32 @@
         }
 
         @media (max-width: 992px) {
+            .content {
+                margin-left: 0;
+                padding: 1rem;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+
+        @media (max-width: 576px) {
             .sidebar {
-                position: relative;
-                height: auto;
                 width: 100%;
             }
 
             .content {
-                margin-left: 0;
+                padding: 0.75rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="sidebar">
+    <div class="sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+        <div class="offcanvas-header d-lg-none">
+            <h5 class="offcanvas-title text-white" id="sidebarOffcanvasLabel">SPEEDSHOP 2</h5>
+            <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
         <div class="brand">
             <i class="bi bi-shop-window-fill fs-3"></i>
             <span>SPEEDSHOP 2</span>
@@ -161,16 +173,22 @@
 
     <div class="content">
         @if(auth()->check())
-        <div class="d-flex justify-content-end align-items-center mb-3">
-            <div class="dropdown">
-                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="userProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle me-1"></i> {{ auth()->user()->name }}
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileDropdown">
-                    <li><a class="dropdown-item" href="/profil">Profil</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
-                </ul>
+        <div class="d-flex justify-content-between align-items-center mb-3 gap-2 flex-wrap">
+            <button class="btn btn-sm btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
+                <i class="bi bi-list"></i> Menu
+            </button>
+
+            <div class="ms-lg-auto">
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="userProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle me-1"></i> {{ auth()->user()->name }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileDropdown">
+                        <li><a class="dropdown-item" href="/profil">Profil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         @endif

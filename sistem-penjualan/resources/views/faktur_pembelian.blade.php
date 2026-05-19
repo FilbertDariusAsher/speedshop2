@@ -90,9 +90,13 @@
                             </span>
                         </td>
                         <td class="text-center">
-                            <a href="{{ asset($invoice->invoice_file) }}" target="_blank" class="btn btn-sm btn-outline-primary border-0 bg-light-subtle">
-                                <i class="bi bi-eye-fill me-1"></i> Lihat
-                            </a>
+                            @if($invoice->invoice_file && file_exists($invoice->invoice_file))
+                                <a href="{{ route('invoice.download', $invoice->id) }}" target="_blank" class="btn btn-sm btn-outline-primary border-0 bg-light-subtle">
+                                    <i class="bi bi-eye-fill me-1"></i> Lihat
+                                </a>
+                            @else
+                                <span class="text-secondary small">Tidak tersedia</span>
+                            @endif
                         </td>
                         <td class="pe-4">
                             <div class="d-flex align-items-center">

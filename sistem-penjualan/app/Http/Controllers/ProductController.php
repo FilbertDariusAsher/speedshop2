@@ -159,16 +159,22 @@ class ProductController extends Controller
                 $product->harga_jual = $validated['new_harga_jual'];
             }
 
-            // Simpan file faktur ke public/invoices
+            // Simpan file faktur ke direktori sementara yang writable di Vercel
             $file = $request->file('invoice_file');
             $filename = 'faktur_' . time() . '_' . $product->id . '.' . $file->getClientOriginalExtension();
+            $tempDir = sys_get_temp_dir() . '/invoices';
 
-            if (!file_exists(public_path('invoices'))) {
-                mkdir(public_path('invoices'), 0755, true);
+            if (!file_exists($tempDir)) {
+                mkdir($tempDir, 0755, true);
             }
 
-            $file->move(public_path('invoices'), $filename);
-            $path = 'invoices/' . $filename;
+            $path = $tempDir . '/' . $filename;
+            try {
+                $file->move($tempDir, $filename);
+            } catch (\Exception $e) {
+                // Jika penulisan file gagal di Vercel, biarkan proses tetap berjalan
+                // dan simpan data invoice agar stok tetap bertambah.
+            }
 
             // Simpan data invoice
             Invoice::create([
@@ -188,6 +194,17 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return redirect('/faktur-pembelian')->with('error', 'Error: ' . $e->getMessage());
         }
+    }
+
+    public function downloadInvoice($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+
+        if (empty($invoice->invoice_file) || !file_exists($invoice->invoice_file)) {
+            return redirect('/faktur-pembelian')->with('error', 'File faktur tidak tersedia.');
+        }
+
+        return response()->file($invoice->invoice_file);
     }
 
     public function updateStock(Request $request, $id)

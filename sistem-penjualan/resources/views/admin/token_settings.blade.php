@@ -26,7 +26,7 @@
         </div>
         <div class="card-body p-4">
             <!-- Form Tambah Token Nominal -->
-            <form method="POST" action="{{ route('admin.token.nominal.store') }}" class="mb-4">
+            <form method="POST" action="/admin/token-nominal" class="mb-4">
                 @csrf
                 <div class="row g-3 align-items-end">
                     <div class="col-md-3">
@@ -72,7 +72,7 @@
                                     <button type="button" class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#editTokenModal{{ $nominal->id }}" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </button>
-                                    <form method="POST" action="{{ route('admin.token.nominal.delete', $nominal->id) }}" class="confirm-delete-form" style="display: inline;">
+                                    <form method="POST" action="/admin/token-nominal/{{ $nominal->id }}" class="confirm-delete-form" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn btn-sm btn-danger confirm-delete-button" data-delete-title="Nominal Rp {{ number_format($nominal->nominal_amount, 0, ',', '.') }}">
@@ -90,7 +90,7 @@
                                             <h6 class="modal-title">Edit Nominal Token</h6>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
-                                        <form method="POST" action="{{ route('admin.token.nominal.update', $nominal->id) }}">
+                                        <form method="POST" action="/admin/token-nominal/{{ $nominal->id }}">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-body">

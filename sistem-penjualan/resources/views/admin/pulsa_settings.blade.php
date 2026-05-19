@@ -29,7 +29,7 @@
                 </div>
                 <div class="card-body p-4">
                     <!-- Form Tambah Provider -->
-                    <form method="POST" action="{{ route('admin.pulsa.provider.store') }}" class="mb-4">
+                    <form method="POST" action="/admin/pulsa-provider" class="mb-4">
                         @csrf
                         <div class="input-group mb-3">
                             <input type="text" name="name" class="form-control" placeholder="Nama provider (Telkomsel, XL, dll)" required>
@@ -48,7 +48,7 @@
                         @forelse($providers as $provider)
                             <div class="d-flex justify-content-between align-items-center p-3 border rounded-3 mb-2">
                                 <span class="fw-medium">{{ $provider->name }}</span>
-                                <form method="POST" action="{{ route('admin.pulsa.provider.delete', $provider->id) }}" class="confirm-delete-form" style="display: inline;">
+                                <form method="POST" action="/admin/pulsa-provider/{{ $provider->id }}" class="confirm-delete-form" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-sm btn-danger confirm-delete-button" data-delete-title="Provider {{ $provider->name }}">
@@ -74,7 +74,7 @@
                 </div>
                 <div class="card-body p-4">
                     <!-- Form Tambah Nominal -->
-                    <form method="POST" action="{{ route('admin.pulsa.nominal.store') }}" class="mb-4">
+                    <form method="POST" action="/admin/pulsa-nominal" class="mb-4">
                         @csrf
                         <div class="row g-2 mb-3">
                             <div class="col-md-5">
@@ -128,7 +128,7 @@
                                                             <button type="button" class="btn btn-sm btn-warning me-1" data-bs-toggle="modal" data-bs-target="#editNominalModal{{ $nominal->id }}" title="Edit">
                                                                 <i class="bi bi-pencil"></i>
                                                             </button>
-                                                            <form method="POST" action="{{ route('admin.pulsa.nominal.delete', $nominal->id) }}" class="confirm-delete-form" style="display: inline;">
+                                                            <form method="POST" action="/admin/pulsa-nominal/{{ $nominal->id }}" class="confirm-delete-form" style="display: inline;">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="button" class="btn btn-sm btn-danger confirm-delete-button" data-delete-title="Nominal Rp {{ number_format($nominal->nominal_amount * 1000, 0, ',', '.') }}">
@@ -146,7 +146,7 @@
                                                                     <h6 class="modal-title">Edit Nominal</h6>
                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                                 </div>
-                                                                <form method="POST" action="{{ route('admin.pulsa.nominal.update', $nominal->id) }}">
+                                                                <form method="POST" action="/admin/pulsa-nominal/{{ $nominal->id }}">
                                                                     @csrf
                                                                     @method('PUT')
                                                                     <div class="modal-body">

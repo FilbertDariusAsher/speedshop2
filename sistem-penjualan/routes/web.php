@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/upload-faktur', [ProductController::class, 'uploadFaktur']);
     Route::get('/faktur-pembelian', [ProductController::class, 'fakturPembelianView']);
+    Route::get('/invoice/{id}', [ProductController::class, 'downloadInvoice'])->name('invoice.download');
     Route::post('/stok/{id}/update', [ProductController::class, 'updateStock']);
 
     // ================= LAPORAN =================

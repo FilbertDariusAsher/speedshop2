@@ -91,7 +91,7 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('login.perform') }}">
+                        <form method="POST" action="/login">
                             @csrf
 
                             <div class="mb-3">
