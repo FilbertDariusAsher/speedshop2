@@ -41,27 +41,27 @@
                     <h5 class="mb-0 fw-semibold"><i class="bi bi-person-plus me-2"></i>Tambah User Baru</h5>
                 </div>
                 <div class="card-body p-4">
-                    <form method="POST" action="{{ route('admin.karyawan.store') }}">
+                    <form method="POST" action="{{ route('admin.karyawan.store') }}" autocomplete="off">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Nama Lengkap</label>
-                            <input type="text" name="name" class="form-control rounded-4" value="{{ old('name') }}" required>
+                            <input type="text" name="name" class="form-control rounded-4" value="{{ old('name') }}" autocomplete="off" required>
                             @error('name')<small class="text-danger">{{ $message }}</small>@enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Email</label>
-                            <input type="email" name="email" class="form-control rounded-4" value="{{ old('email') }}" required>
+                            <input type="email" name="email" class="form-control rounded-4" autocomplete="off" required>
                             @error('email')<small class="text-danger">{{ $message }}</small>@enderror
                         </div>
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
                                 <label class="form-label fw-semibold">Password</label>
-                                <input type="password" name="password" class="form-control rounded-4" required>
+                                <input type="password" name="password" class="form-control rounded-4" autocomplete="new-password" required>
                                 @error('password')<small class="text-danger">{{ $message }}</small>@enderror
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label fw-semibold">Konfirmasi Password</label>
-                                <input type="password" name="password_confirmation" class="form-control rounded-4" required>
+                                <input type="password" name="password_confirmation" class="form-control rounded-4" autocomplete="new-password" required>
                             </div>
                         </div>
                         <div class="mb-3 mt-3">
@@ -109,25 +109,18 @@
                                         </td>
                                         <td>{{ $user->created_at->format('d M Y') }}</td>
                                         <td class="text-end">
-                                            @if($user->id !== auth()->id())
-                                                <div class="d-flex justify-content-end gap-2 flex-wrap">
-                                                    <form method="POST" action="{{ route('admin.karyawan.status', $user->id) }}">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <button type="submit" class="btn btn-sm btn-outline-{{ $user->active ? 'warning' : 'success' }} rounded-pill">
-                                                            {{ $user->active ? 'Nonaktifkan' : 'Aktifkan' }}
-                                                        </button>
-                                                    </form>
-                                                    <form method="POST" action="{{ route('admin.karyawan.destroy', $user->id) }}" class="confirm-delete-form" style="display: inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" class="btn btn-sm btn-danger rounded-pill confirm-delete-button" data-delete-title="Akun {{ $user->name }}">
-                                                            Hapus
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            @else
+                                            @if($user->id === auth()->id())
                                                 <span class="text-muted small">Akun Anda</span>
+                                            @elseif($user->email === 'lenawatisintya@gmail.com')
+                                                <span class="badge bg-dark text-white rounded-pill">Owner Khusus</span>
+                                            @else
+                                                <form method="POST" action="{{ route('admin.karyawan.status', $user->id) }}">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="btn btn-sm btn-outline-{{ $user->active ? 'warning' : 'success' }} rounded-pill">
+                                                        {{ $user->active ? 'Nonaktifkan' : 'Aktifkan' }}
+                                                    </button>
+                                                </form>
                                             @endif
                                         </td>
                                     </tr>
@@ -145,45 +138,5 @@
     </div>
 </div>
 
-<!-- Modal Konfirmasi Hapus -->
-<div class="modal fade" id="deleteConfirmModalEmployee" tabindex="-1" aria-labelledby="deleteConfirmModalEmployeeLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded-4 border-0 shadow-sm">
-            <div class="modal-header border-0">
-                <h5 class="modal-title" id="deleteConfirmModalEmployeeLabel">Konfirmasi Hapus</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p id="deleteConfirmMessageEmployee" class="mb-0">Apakah Anda yakin ingin menghapus akun ini?</p>
-            </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-danger rounded-pill" id="confirmDeleteButtonEmployee">Hapus</button>
-            </div>
-        </div>
-    </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let deleteFormEmployee = null;
-        const deleteModalEmployee = new bootstrap.Modal(document.getElementById('deleteConfirmModalEmployee'));
-        const deleteMessageEmployee = document.getElementById('deleteConfirmMessageEmployee');
-
-        document.querySelectorAll('.confirm-delete-button').forEach(button => {
-            button.addEventListener('click', function () {
-                deleteFormEmployee = this.closest('.confirm-delete-form');
-                const title = this.dataset.deleteTitle || 'Akun ini';
-                deleteMessageEmployee.textContent = 'Yakin hapus ' + title + '?';
-                deleteModalEmployee.show();
-            });
-        });
-
-        document.getElementById('confirmDeleteButtonEmployee').addEventListener('click', function () {
-            if (deleteFormEmployee) {
-                deleteFormEmployee.submit();
-            }
-        });
-    });
-</script>
 @endsection

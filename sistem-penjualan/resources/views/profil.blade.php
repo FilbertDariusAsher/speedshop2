@@ -31,6 +31,16 @@
                             <label class="form-label text-secondary">Akun Dibuat</label>
                             <input class="form-control" type="text" value="{{ auth()->user()->created_at->format('d M Y H:i') }}" readonly>
                         </div>
+                        <div class="col-12">
+                            <label class="form-label text-secondary">Password</label>
+                            <div class="input-group">
+                                <input id="profilePassword" class="form-control" type="password" value="********" readonly>
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('profilePassword')" aria-label="Tampilkan / sembunyikan password">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <small class="text-muted">Password disembunyikan demi keamanan.</small>
+                        </div>
                     </div>
 
                     <div class="mt-4 text-end">
@@ -41,4 +51,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        input.type = input.type === 'password' ? 'text' : 'password';
+    }
+</script>
 @endsection

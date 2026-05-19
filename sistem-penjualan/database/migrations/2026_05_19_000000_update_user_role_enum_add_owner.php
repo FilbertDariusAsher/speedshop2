@@ -23,6 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         if (Schema::hasTable('users') && Schema::hasColumn('users', 'role')) {
+            DB::statement("UPDATE `users` SET `role` = 'admin' WHERE `role` = 'owner'");
             DB::statement("ALTER TABLE `users` MODIFY `role` ENUM('admin','karyawan') NOT NULL DEFAULT 'admin'");
         }
     }

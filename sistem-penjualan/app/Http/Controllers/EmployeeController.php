@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
+    private const PROTECTED_OWNER_EMAIL = 'lenawatisintya@gmail.com';
+
     public function index()
     {
         if (!in_array(auth()->user()->role, ['admin', 'owner'])) {
@@ -54,6 +56,10 @@ class EmployeeController extends Controller
             return back()->with('error', 'Tidak dapat mengubah status akun sendiri.');
         }
 
+        if ($user->email === self::PROTECTED_OWNER_EMAIL) {
+            return back()->with('error', 'Akun owner khusus tidak dapat dinonaktifkan.');
+        }
+
         $user->active = !$user->active;
         $user->save();
 
@@ -70,6 +76,10 @@ class EmployeeController extends Controller
 
         if ($user->id === auth()->id()) {
             return back()->with('error', 'Tidak dapat menghapus akun sendiri.');
+        }
+
+        if ($user->email === self::PROTECTED_OWNER_EMAIL) {
+            return back()->with('error', 'Akun owner khusus tidak dapat dihapus.');
         }
 
         $user->delete();

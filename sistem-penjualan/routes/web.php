@@ -138,6 +138,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/karyawan', [EmployeeController::class, 'index'])->name('admin.karyawan.index');
     Route::post('/admin/karyawan', [EmployeeController::class, 'store'])->name('admin.karyawan.store');
     Route::put('/admin/karyawan/{id}/status', [EmployeeController::class, 'updateStatus'])->name('admin.karyawan.status');
-    Route::delete('/admin/karyawan/{id}', [EmployeeController::class, 'destroy'])->name('admin.karyawan.destroy');
 
 });
