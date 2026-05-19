@@ -21,15 +21,18 @@
             position: fixed;
             top: 0;
             left: 0;
-            background: #0d1b2a;
+            background: linear-gradient(180deg, #0a2a5e, #0f4d8b) !important;
             color: #fff;
             padding-top: 1rem;
             overflow-y: auto;
             transition: transform 0.3s ease;
+            z-index: 1045;
         }
 
-        .sidebar a {
-            color: #fff;
+        .sidebar a,
+        .sidebar .brand,
+        .sidebar .nav-link {
+            color: #fff !important;
         }
 
         .sidebar .brand {
@@ -55,6 +58,16 @@
             background: #fff;
             box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
             border-radius: 1.25rem;
+        }
+
+        .offcanvas-lg {
+            visibility: visible;
+            background: transparent;
+        }
+
+        .offcanvas-lg .offcanvas-header {
+            background: transparent;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
         }
 
         @media (max-width: 992px) {
