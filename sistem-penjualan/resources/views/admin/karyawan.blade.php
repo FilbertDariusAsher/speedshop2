@@ -70,6 +70,7 @@
                                 <option value="karyawan" {{ old('role') === 'karyawan' ? 'selected' : '' }}>Karyawan</option>
                                 <option value="owner" {{ old('role') === 'owner' ? 'selected' : '' }}>Owner</option>
                             </select>
+                            @error('role')<small class="text-danger">{{ $message }}</small>@enderror
                         </div>
                         <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">Buat Akun</button>
                     </form>

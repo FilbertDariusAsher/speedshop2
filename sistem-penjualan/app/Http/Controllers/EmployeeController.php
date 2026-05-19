@@ -39,7 +39,7 @@ class EmployeeController extends Controller
             'active' => true,
         ]);
 
-        return redirect()->route('admin.karyawan.index')->with('success', 'Akun karyawan berhasil dibuat');
+        return redirect()->route('admin.karyawan.index')->with('success', 'Akun berhasil dibuat');
     }
 
     public function updateStatus(Request $request, $id)
