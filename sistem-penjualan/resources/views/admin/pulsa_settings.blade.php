@@ -4,10 +4,14 @@
 
 @section('content')
 <div class="container-fluid py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-column flex-md-row gap-3">
         <div>
             <h3 class="fw-bold">Pengaturan Harga Pulsa</h3>
             <p class="text-muted">Kelola provider dan nominal pulsa serta profit margin.</p>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Pilih pengaturan">
+                <a href="/admin/pulsa-settings" class="btn btn-primary">Setting Pulsa</a>
+                <a href="/admin/token-settings" class="btn btn-outline-secondary">Setting Token</a>
+            </div>
         </div>
         <a href="/pulsa-token" class="btn btn-outline-secondary px-4 py-2 shadow-sm rounded-4">
             <i class="bi bi-arrow-left me-2"></i>Kembali
