@@ -71,35 +71,46 @@
         }
 
         @media (max-width: 992px) {
-            .offcanvas-lg {
-                visibility: hidden;
-                background: #fff;
-                position: fixed;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100vh;
-                z-index: 1050;
-                transition: left 0.3s ease;
+            .sidebar {
+                position: fixed !important;
+                width: 100% !important;
+                height: 100vh !important;
+                top: 0 !important;
+                left: -100% !important;
+                transform: none !important;
+                z-index: 1050 !important;
+                transition: left 0.3s ease !important;
+                background: linear-gradient(180deg, #0a2a5e, #0f4d8b) !important;
+                overflow-y: auto;
             }
 
-            .offcanvas-lg.show {
-                visibility: visible;
-                left: 0;
+            .sidebar.show {
+                left: 0 !important;
             }
 
             .offcanvas-lg .offcanvas-header {
                 background: linear-gradient(180deg, #0a2a5e, #0f4d8b);
-                position: sticky;
-                top: 0;
                 z-index: 1051;
+                display: flex;
+                align-items: center;
+                padding: 1rem;
             }
 
             .offcanvas-lg .btn-close {
+                color: #fff;
+                opacity: 1;
                 filter: brightness(0) invert(1);
             }
 
-            .offcanvas-backdrop.show {
+            .offcanvas-lg .btn-close:focus {
+                opacity: 0.8;
+            }
+
+            body.offcanvas-shown {
+                overflow: hidden;
+            }
+
+            .offcanvas-backdrop {
                 display: block;
                 opacity: 0.5;
                 z-index: 1049;
@@ -110,6 +121,7 @@
                 padding: 1rem;
                 border-radius: 0;
                 box-shadow: none;
+                z-index: 1;
             }
         }
 
@@ -243,6 +255,33 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const offcanvasElement = document.getElementById('sidebarOffcanvas');
+            const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+            
+            // Close offcanvas ketika link di menu diklik
+            const navLinks = offcanvasElement.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Delay sedikit agar transisi smooth
+                    setTimeout(() => {
+                        offcanvas.hide();
+                    }, 100);
+                });
+            });
+
+            // Pastikan close button berfungsi
+            const closeButton = offcanvasElement.querySelector('[data-bs-dismiss="offcanvas"]');
+            if (closeButton) {
+                closeButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    offcanvas.hide();
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
