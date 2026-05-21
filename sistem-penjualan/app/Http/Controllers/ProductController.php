@@ -160,7 +160,7 @@ class ProductController extends Controller
 
             $file = $request->file('invoice_file');
             $filename = 'faktur_' . time() . '_' . $product->id . '.' . $file->getClientOriginalExtension();
-            $invoicesDir = public_path('invoices');
+            $invoicesDir = storage_path('app/invoices');
 
             if (!File::exists($invoicesDir)) {
                 File::makeDirectory($invoicesDir, 0755, true);
@@ -190,7 +190,7 @@ class ProductController extends Controller
     public function downloadInvoice($id)
     {
         $invoice = Invoice::findOrFail($id);
-        $path = public_path($invoice->invoice_file);
+        $path = storage_path('app/' . $invoice->invoice_file);
 
         if (empty($invoice->invoice_file) || !File::exists($path)) {
             return redirect('/faktur-pembelian')->with('error', 'File faktur tidak tersedia.');
@@ -259,15 +259,15 @@ class ProductController extends Controller
             if ($request->hasFile('invoice_file')) {
                 $file = $request->file('invoice_file');
                 $filename = 'faktur_' . time() . '_' . $product->id . '.' . $file->getClientOriginalExtension();
-                $invoicesDir = public_path('invoices');
+                $invoicesDir = storage_path('app/invoices');
 
                 if (!File::exists($invoicesDir)) {
                     File::makeDirectory($invoicesDir, 0755, true);
                 }
 
                 // Delete old file if exists
-                if (!empty($invoice->invoice_file) && File::exists(public_path($invoice->invoice_file))) {
-                    File::delete(public_path($invoice->invoice_file));
+                if (!empty($invoice->invoice_file) && File::exists(storage_path('app/' . $invoice->invoice_file))) {
+                    File::delete(storage_path('app/' . $invoice->invoice_file));
                 }
 
                 $path = 'invoices/' . $filename;

@@ -95,7 +95,7 @@
                             </span>
                         </td>
                         <td class="text-center">
-                            @if($invoice->invoice_file && file_exists(public_path($invoice->invoice_file)))
+                            @if($invoice->invoice_file && \Illuminate\Support\Facades\Storage::disk('local')->exists($invoice->invoice_file))
                                 <a href="{{ route('invoice.download', $invoice->id) }}" target="_blank" class="btn btn-sm btn-outline-primary border-0 bg-light-subtle">
                                     <i class="bi bi-eye-fill me-1"></i> Lihat
                                 </a>
