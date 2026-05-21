@@ -273,7 +273,7 @@
                     <h5 class="modal-title" id="editModalLabel">Edit Harga Pembelian & File</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" id="editForm" action="{{ route('invoice.update', ['id' => '']) }}" enctype="multipart/form-data">
+                <form method="POST" id="editForm" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
                     <div class="modal-body">
@@ -301,7 +301,7 @@
                             <small class="text-muted">Biarkan kosong jika tidak ingin mengganti file. Format: JPG, PNG, PDF (Max 2MB)</small>
                         </div>
                         <small class="text-muted">Isi field yang ingin diperbarui saja.</small>
-                        <input type="hidden" id="editInvoiceId" name="invoice_id">
+                        <input type="hidden" id="editInvoiceId">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
