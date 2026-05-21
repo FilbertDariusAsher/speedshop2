@@ -172,7 +172,6 @@
         <strong>Dicetak:</strong> {{ now()->format('d M Y \p\u\k\u\l H:i') }}
     </div>
 
-    <!-- SUMMARY SECTION -->
     <div class="summary-section">
         <div class="summary-grid">
             <div class="summary-item">
@@ -228,7 +227,6 @@
         </tbody>
     </table>
 
-    <!-- FOOTER -->
     <div class="footer">
         <p>* Laporan ini digenerate secara otomatis oleh sistem SPEEDSHOP 2</p>
     </div>

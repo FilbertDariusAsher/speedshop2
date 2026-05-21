@@ -8,7 +8,7 @@ body {
     font-family: 'Segoe UI', Arial, sans-serif;
     font-size: 10px;
     margin: 0;
-    padding: 3mm; /* Padding dikecilkan agar tidak makan ruang luar */
+    padding: 3mm; 
     color: #333;
 }
 
@@ -17,13 +17,12 @@ body {
     border-radius: 4px;
     padding: 8px;
     background: #fff;
-    /* Kunci height sedikit lebih pendek dari ukuran A5 Landscape standar (148mm) */
-    /* Ini mencegah munculnya halaman ke-2 akibat margin/padding browser */
+ 
     height: 132mm; 
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    overflow: hidden; /* Memotong konten jika nekat keluar jalur */
+    overflow: hidden; 
 }
 
 .header {
@@ -86,7 +85,7 @@ table.items td {
 
 .footer-section {
     width: 100%;
-    margin-top: auto; /* Footer nempel ke bawah */
+    margin-top: auto; 
     padding-top: 5px;
 }
 
@@ -152,10 +151,15 @@ table.items td {
                 </td>
                 <td width="50%">
                     <div><span class="label">Customer</span>: {{ $transaction->customer_name }}</div>
-                    <div><span class="label">Kasir</span>: Admin</div>
+                    <div><span class="label">Kasir</span>: {{ $transaction->user ? $transaction->user->name : 'N/A' }}</div>
                 </td>
             </tr>
         </table>
+        @if(!empty($transaction->description))
+            <div style="margin-top: 8px; padding: 8px; background: #f4f8fb; border: 1px solid #d6e4f2; border-radius: 4px; font-size: 10px; color: #333;">
+                <strong>Catatan:</strong> {{ $transaction->description }}
+            </div>
+        @endif
     </div>
 
     <table class="items">

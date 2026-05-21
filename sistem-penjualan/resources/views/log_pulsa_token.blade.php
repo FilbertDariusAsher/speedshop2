@@ -86,7 +86,11 @@
                             @if(is_numeric($transaction->amount))
                                 Rp {{ number_format(((float)$transaction->amount) * 1000, 0, ',', '.') }}
                             @elseif(isset($transaction->amount) && $transaction->amount)
-                                Rp {{ $transaction->amount }}
+                                @if(str_ends_with($transaction->amount, 'k'))
+                                    Rp {{ number_format((float)substr($transaction->amount, 0, -1) * 1000, 0, ',', '.') }}
+                                @else
+                                    Rp {{ number_format((float)$transaction->amount, 0, ',', '.') }}
+                                @endif
                             @else
                                 -
                             @endif

@@ -182,13 +182,11 @@
         document.getElementById('paket').style.display = 'none';
         document.getElementById('token').style.display = 'none';
 
-        // Remove required and disable all hidden section fields
         document.querySelectorAll('#pulsa [name], #paket [name], #token [name]').forEach(el => {
             el.required = false;
             el.disabled = true;
         });
 
-        // Add required and enable visible section fields
         if (type === 'pulsa') {
             document.getElementById('pulsa').style.display = 'block';
             document.getElementById('pulsa').querySelectorAll('[name]').forEach(el => el.disabled = false);

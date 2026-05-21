@@ -5,7 +5,6 @@
 @section('content')
 <div class="container-fluid">
 
-    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="fw-bold">Kelola Produk</h2>

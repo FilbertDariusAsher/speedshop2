@@ -270,10 +270,10 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit Harga Pembelian</h5>
+                    <h5 class="modal-title" id="editModalLabel">Edit Harga Pembelian & File</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" id="editForm">
+                <form method="POST" id="editForm" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
                     <div class="modal-body">
@@ -294,6 +294,11 @@
                                 <span class="input-group-text bg-light border-end-0">Rp</span>
                                 <input type="number" id="editHargaJual" name="new_harga_jual" class="form-control border-start-0" step="0.01" min="0">
                             </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Ganti File Faktur (Opsional)</label>
+                            <input type="file" name="invoice_file" class="form-control" accept="image/*,application/pdf" placeholder="Pilih file baru">
+                            <small class="text-muted">Biarkan kosong jika tidak ingin mengganti file. Format: JPG, PNG, PDF (Max 2MB)</small>
                         </div>
                         <small class="text-muted">Isi field yang ingin diperbarui saja.</small>
                         <input type="hidden" id="editInvoiceId">

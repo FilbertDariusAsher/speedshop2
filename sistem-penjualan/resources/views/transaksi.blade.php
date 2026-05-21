@@ -42,7 +42,6 @@
     </div>
     @endif
 
-    {{-- ================= UI ASLI KAMU ================= --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h3 class="fw-bold text-dark mb-1">Transaksi Penjualan</h3>
@@ -67,6 +66,10 @@
                     <div class="col-md-11">
                         <label class="form-label fw-bold text-secondary small text-uppercase">Nama Pelanggan</label>
                         <input type="text" name="customer_name" class="form-control custom-input py-2" placeholder="Masukkan nama pembeli..." required>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Deskripsi / Catatan</label>
+                        <textarea name="description" class="form-control custom-input" rows="2" placeholder="Catatan untuk nota: misal email, password, nomor penting, dan lain lain"></textarea>
                     </div>
                 </div>
             </div>
@@ -173,7 +176,6 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// FIX AUTO HARGA (INI YANG TADI RUSAK)
 document.addEventListener('change', function(e) {
 
     if (e.target.classList.contains('product-select')) {
@@ -233,12 +235,10 @@ function generateIMEI(item) {
     }
 }
 
-// AUTO HILANG NOTIF
 setTimeout(() => {
     document.querySelectorAll('.toast').forEach(el => el.remove());
 }, 3000);
 
-// LOADING BUTTON
 document.querySelector('form').addEventListener('submit', function() {
     const btn = document.getElementById('submitBtn');
     btn.innerHTML = 'Menyimpan...';

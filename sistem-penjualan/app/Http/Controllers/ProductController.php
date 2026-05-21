@@ -230,6 +230,7 @@ class ProductController extends Controller
             'new_harga_beli' => 'nullable|numeric|min:0.01',
             'new_harga_jual' => 'nullable|numeric|min:0.01',
             'new_stock_amount' => 'nullable|integer|min:0',
+            'invoice_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
         try {
@@ -252,6 +253,26 @@ class ProductController extends Controller
                 }
                 $product->stock += $stockDifference;
                 $invoice->stock_amount = $validated['new_stock_amount'];
+            }
+
+            // Handle file upload
+            if ($request->hasFile('invoice_file')) {
+                $file = $request->file('invoice_file');
+                $filename = 'faktur_' . time() . '_' . $product->id . '.' . $file->getClientOriginalExtension();
+                $invoicesDir = public_path('invoices');
+
+                if (!File::exists($invoicesDir)) {
+                    File::makeDirectory($invoicesDir, 0755, true);
+                }
+
+                // Delete old file if exists
+                if (!empty($invoice->invoice_file) && File::exists(public_path($invoice->invoice_file))) {
+                    File::delete(public_path($invoice->invoice_file));
+                }
+
+                $path = 'invoices/' . $filename;
+                $file->move($invoicesDir, $filename);
+                $invoice->invoice_file = $path;
             }
 
             $invoice->save();

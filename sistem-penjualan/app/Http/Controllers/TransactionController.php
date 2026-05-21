@@ -48,7 +48,7 @@ class TransactionController extends Controller
             });
         }
 
-        $transactions = $query->get();
+        $transactions = $query->orderByDesc('transaction_date')->orderByDesc('id')->get();
         return view('riwayat_transaksi', compact('transactions'));
     }
 
@@ -59,6 +59,7 @@ class TransactionController extends Controller
         }
         $request->validate([
             'customer_name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
             'products' => 'required|array|min:1',
             'products.*.product_id' => 'required|exists:products,id',
             'products.*.quantity' => 'required|integer|min:1',
@@ -127,8 +128,10 @@ class TransactionController extends Controller
 
             $transaction = Transaction::create([
                 'customer_name' => $request->customer_name,
+                'description' => $request->description,
                 'total' => $total,
                 'transaction_date' => now()->toDateString(),
+                'user_id' => auth()->id(),
             ]);
 
             foreach ($details as $detail) {
@@ -142,7 +145,7 @@ class TransactionController extends Controller
 
             // ================= PDF GENERATION =================
             try {
-                $transaction = Transaction::with('details.product')->find($transaction->id);
+                $transaction = Transaction::with('details.product', 'user')->find($transaction->id);
 
                 $pdf = Pdf::loadView('pdf.nota', compact('transaction'));
 
@@ -172,7 +175,7 @@ class TransactionController extends Controller
             abort(403);
         }
 
-        $transaction = Transaction::with('details.product')->findOrFail($id);
+        $transaction = Transaction::with('details.product', 'user')->findOrFail($id);
         $pdf = Pdf::loadView('pdf.nota', compact('transaction'));
 
         $customerSlug = preg_replace('/[^A-Za-z0-9]+/', '_', strtolower($transaction->customer_name ?? 'pelanggan'));
