@@ -7,7 +7,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4 flex-column flex-md-row gap-3">
         <div>
             <h3 class="fw-bold">Pengaturan Harga Pulsa</h3>
-            <p class="text-muted">Kelola provider dan nominal pulsa serta profit margin.</p>
+            <p class="text-muted">Kelola provider, nominal pulsa, dan markup harga.</p>
             <div class="btn-group btn-group-sm" role="group" aria-label="Pilih pengaturan">
                 <a href="/admin/pulsa-settings" class="btn btn-primary">Setting Pulsa</a>
                 <a href="/admin/token-settings" class="btn btn-outline-secondary">Setting Token</a>

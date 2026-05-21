@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/upload-faktur', [ProductController::class, 'uploadFaktur']);
     Route::get('/faktur-pembelian', [ProductController::class, 'fakturPembelianView']);
     Route::get('/invoice/{id}', [ProductController::class, 'downloadInvoice'])->name('invoice.download');
+    Route::put('/invoice/{id}', [ProductController::class, 'updateInvoice'])->name('invoice.update');
     Route::post('/stok/{id}/update', [ProductController::class, 'updateStock']);
 
     // ================= LAPORAN =================
@@ -107,8 +108,15 @@ Route::middleware('auth')->group(function () {
         });
 
         if ($request->download === 'pdf') {
+            $fromLabel = $from ? \Carbon\Carbon::parse($from)->format('Ymd') : 'awal';
+            $toLabel = $to ? \Carbon\Carbon::parse($to)->format('Ymd') : 'akhir';
+            $filename = 'laporan_penjualan_' . $fromLabel . '_sampai_' . $toLabel . '.pdf';
+            if (!$from && !$to) {
+                $filename = 'laporan_penjualan_keseluruhan_' . now()->format('Ymd') . '.pdf';
+            }
+
             $pdf = Pdf::loadView('laporan_pdf', compact('transactions', 'from', 'to', 'totalPendapatan', 'totalUntung'));
-            return $pdf->download('laporan_' . now()->format('Ymd') . '.pdf');
+            return $pdf->download($filename);
         }
 
         return view('laporan', compact('transactions', 'from', 'to', 'totalPendapatan', 'totalUntung'));

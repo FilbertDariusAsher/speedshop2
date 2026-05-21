@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -159,17 +160,14 @@ class ProductController extends Controller
 
             $file = $request->file('invoice_file');
             $filename = 'faktur_' . time() . '_' . $product->id . '.' . $file->getClientOriginalExtension();
-            $tempDir = sys_get_temp_dir() . '/invoices';
+            $invoicesDir = public_path('invoices');
 
-            if (!file_exists($tempDir)) {
-                mkdir($tempDir, 0755, true);
+            if (!File::exists($invoicesDir)) {
+                File::makeDirectory($invoicesDir, 0755, true);
             }
 
-            $path = $tempDir . '/' . $filename;
-            try {
-                $file->move($tempDir, $filename);
-            } catch (\Exception $e) {
-            }
+            $path = 'invoices/' . $filename;
+            $file->move($invoicesDir, $filename);
 
             Invoice::create([
                 'product_id' => $product->id,
@@ -192,12 +190,13 @@ class ProductController extends Controller
     public function downloadInvoice($id)
     {
         $invoice = Invoice::findOrFail($id);
+        $path = public_path($invoice->invoice_file);
 
-        if (empty($invoice->invoice_file) || !file_exists($invoice->invoice_file)) {
+        if (empty($invoice->invoice_file) || !File::exists($path)) {
             return redirect('/faktur-pembelian')->with('error', 'File faktur tidak tersedia.');
         }
 
-        return response()->file($invoice->invoice_file);
+        return response()->file($path);
     }
 
     public function updateStock(Request $request, $id)
@@ -219,5 +218,48 @@ class ProductController extends Controller
         $product->save();
 
         return redirect('/stok')->with('success', 'Stok berhasil diperbarui');
+    }
+
+    public function updateInvoice(Request $request, $id)
+    {
+        if (!in_array(auth()->user()->role, ['admin', 'owner'])) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'new_harga_beli' => 'nullable|numeric|min:0.01',
+            'new_harga_jual' => 'nullable|numeric|min:0.01',
+            'new_stock_amount' => 'nullable|integer|min:0',
+        ]);
+
+        try {
+            $invoice = Invoice::findOrFail($id);
+            $product = $invoice->product;
+
+            if (isset($validated['new_harga_beli']) && $validated['new_harga_beli'] !== null) {
+                $invoice->harga_beli = $validated['new_harga_beli'];
+                $product->price = $validated['new_harga_beli'];
+            }
+
+            if (isset($validated['new_harga_jual']) && $validated['new_harga_jual'] !== null) {
+                $product->harga_jual = $validated['new_harga_jual'];
+            }
+
+            if (isset($validated['new_stock_amount']) && $validated['new_stock_amount'] !== null) {
+                $stockDifference = $validated['new_stock_amount'] - $invoice->stock_amount;
+                if ($product->stock + $stockDifference < 0) {
+                    return redirect('/faktur-pembelian')->with('error', 'Perubahan stok tidak valid: stok tidak boleh negatif.');
+                }
+                $product->stock += $stockDifference;
+                $invoice->stock_amount = $validated['new_stock_amount'];
+            }
+
+            $invoice->save();
+            $product->save();
+
+            return redirect('/faktur-pembelian')->with('success', 'Data pembelian berhasil diperbarui');
+        } catch (\Exception $e) {
+            return redirect('/faktur-pembelian')->with('error', 'Error: ' . $e->getMessage());
+        }
     }
 }

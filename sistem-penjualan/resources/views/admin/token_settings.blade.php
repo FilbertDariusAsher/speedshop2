@@ -39,7 +39,7 @@
                         <input type="number" name="harga_final" class="form-control" placeholder="300000" required>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label fw-semibold">Profit (Rp)</label>
+                        <label class="form-label fw-semibold">Markup (Rp)</label>
                         <input type="number" name="profit" class="form-control" placeholder="3000" value="0" required>
                     </div>
                     <div class="col-md-3">
@@ -57,8 +57,8 @@
                         <tr>
                             <th>Nominal</th>
                             <th>Harga Jual</th>
-                            <th>Profit</th>
-                            <th>Total (Harga + Profit)</th>
+                            <th>Markup</th>
+                            <th>Total (Harga + Markup)</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -104,7 +104,7 @@
                                                     <input type="number" name="harga_final" class="form-control" value="{{ $nominal->harga_final }}" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label fw-semibold">Profit (Rp)</label>
+                                                    <label class="form-label fw-semibold">Markup (Rp)</label>
                                                     <input type="number" name="profit" class="form-control" value="{{ $nominal->profit }}" required>
                                                 </div>
                                                 <div class="alert alert-info mb-0">

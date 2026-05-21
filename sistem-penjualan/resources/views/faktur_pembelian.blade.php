@@ -64,9 +64,11 @@
                         <th class="py-3 text-uppercase text-secondary small fw-bold">Produk</th>
                         <th class="py-3 text-uppercase text-secondary small fw-bold">Jenis</th>
                         <th class="py-3 text-uppercase text-secondary small fw-bold">Harga Beli</th>
+                        <th class="py-3 text-uppercase text-secondary small fw-bold">Harga Jual</th>
                         <th class="py-3 text-uppercase text-secondary small fw-bold text-center">Stok Ditambahkan</th>
                         <th class="py-3 text-uppercase text-secondary small fw-bold text-center">File</th>
                         <th class="pe-4 py-3 text-uppercase text-secondary small fw-bold">Diupload Oleh</th>
+                        <th class="py-3 text-uppercase text-secondary small fw-bold text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,13 +86,16 @@
                         <td>
                             <span class="fw-bold text-dark">Rp {{ number_format($invoice->harga_beli ?? 0, 0, ',', '.') }}</span>
                         </td>
+                        <td>
+                            <span class="fw-bold text-dark">Rp {{ number_format($invoice->product->harga_jual ?? 0, 0, ',', '.') }}</span>
+                        </td>
                         <td class="text-center">
                             <span class="badge rounded-pill bg-success-subtle text-success px-3" style="font-size: 0.9rem;">
                                 +{{ $invoice->stock_amount }}
                             </span>
                         </td>
                         <td class="text-center">
-                            @if($invoice->invoice_file && file_exists($invoice->invoice_file))
+                            @if($invoice->invoice_file && file_exists(public_path($invoice->invoice_file)))
                                 <a href="{{ route('invoice.download', $invoice->id) }}" target="_blank" class="btn btn-sm btn-outline-primary border-0 bg-light-subtle">
                                     <i class="bi bi-eye-fill me-1"></i> Lihat
                                 </a>
@@ -105,6 +110,16 @@
                                 </div>
                                 <span class="small text-muted">{{ $invoice->user->name ?? '-' }}</span>
                             </div>
+                        </td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-sm btn-outline-warning border-0" title="Edit Pembelian" 
+                                data-bs-toggle="modal" data-bs-target="#editModal" 
+                                data-invoice-id="{{ $invoice->id }}"
+                                data-stock-amount="{{ $invoice->stock_amount }}"
+                                data-harga-beli="{{ $invoice->harga_beli ?? 0 }}"
+                                data-harga-jual="{{ $invoice->product->harga_jual ?? 0 }}">
+                                <i class="bi bi-pencil-fill"></i> Edit
+                            </button>
                         </td>
                     </tr>
                     @empty
@@ -237,6 +252,67 @@
             document.querySelectorAll('.toast').forEach(toast => {
                 setTimeout(() => toast.remove(), 3000);
             });
+
+            // EDIT MODAL
+            document.querySelectorAll('[data-bs-target="#editModal"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.getElementById('editInvoiceId').value = this.dataset.invoiceId;
+                    document.getElementById('editStockAmount').value = this.dataset.stockAmount;
+                    document.getElementById('editHargaBeli').value = this.dataset.hargaBeli;
+                    document.getElementById('editHargaJual').value = this.dataset.hargaJual;
+                });
+            });
+        });
+    </script>
+
+    <!-- MODAL EDIT HARGA -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Harga Pembelian</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" id="editForm">
+                    @method('PUT')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Stok (Jumlah)</label>
+                            <input type="number" id="editStockAmount" name="new_stock_amount" class="form-control" min="0" placeholder="Biarkan kosong jika tidak ingin mengubah stok">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Harga Beli Baru</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">Rp</span>
+                                <input type="number" id="editHargaBeli" name="new_harga_beli" class="form-control border-start-0" step="0.01" min="0">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Harga Jual Baru</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">Rp</span>
+                                <input type="number" id="editHargaJual" name="new_harga_jual" class="form-control border-start-0" step="0.01" min="0">
+                            </div>
+                        </div>
+                        <small class="text-muted">Isi field yang ingin diperbarui saja.</small>
+                        <input type="hidden" id="editInvoiceId">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const invoiceId = document.getElementById('editInvoiceId').value;
+            this.action = '/invoice/' + invoiceId;
+            this.submit();
         });
     </script>
 </div>
