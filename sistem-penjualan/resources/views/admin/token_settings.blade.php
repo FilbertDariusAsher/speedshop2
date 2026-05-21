@@ -13,9 +13,6 @@
                 <a href="/admin/token-settings" class="btn btn-primary">Setting Token</a>
             </div>
         </div>
-        <a href="/pulsa-token" class="btn btn-outline-secondary px-4 py-2 shadow-sm rounded-4">
-            <i class="bi bi-arrow-left me-2"></i>Kembali
-        </a>
     </div>
 
     @if(session('success'))
