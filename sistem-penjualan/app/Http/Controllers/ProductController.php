@@ -160,7 +160,27 @@ class ProductController extends Controller
 
             $file = $request->file('invoice_file');
             $filename = 'faktur_' . time() . '_' . $product->id . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('public/invoices', $filename);
+            
+            // Simpan file ke disk public
+            try {
+                $path = $file->storeAs('invoices', $filename, 'public');
+                
+                if (!$path) {
+                    throw new \Exception('File tidak berhasil disimpan. storeAs() mengembalikan false/null');
+                }
+                
+                // Verifikasi file benar-benar tersimpan
+                $fullPath = storage_path('app/public/' . $path);
+                if (!file_exists($fullPath)) {
+                    throw new \Exception('File disimpan dengan path ' . $path . ' tapi file tidak ditemukan di: ' . $fullPath);
+                }
+            } catch (\Exception $e) {
+                \Log::error('File storage error', [
+                    'error' => $e->getMessage(),
+                    'filename' => $filename,
+                ]);
+                throw $e;
+            }
 
             Invoice::create([
                 'product_id' => $product->id,
@@ -183,7 +203,7 @@ class ProductController extends Controller
     public function downloadInvoice($id)
     {
         $invoice = Invoice::findOrFail($id);
-        $path = storage_path('app/' . $invoice->invoice_file);
+        $path = storage_path('app/public/' . $invoice->invoice_file);
 
         if (empty($invoice->invoice_file) || !File::exists($path)) {
             return redirect('/faktur-pembelian')->with('error', 'File faktur tidak tersedia.');
@@ -252,13 +272,13 @@ class ProductController extends Controller
             if ($request->hasFile('invoice_file')) {
                 $file = $request->file('invoice_file');
                 $filename = 'faktur_' . time() . '_' . $product->id . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('public/invoices', $filename);
 
                 // Hapus file lama jika ada
-                if (!empty($invoice->invoice_file) && Storage::exists($invoice->invoice_file)) {
-                    Storage::delete($invoice->invoice_file);
+                if (!empty($invoice->invoice_file) && Storage::disk('public')->exists($invoice->invoice_file)) {
+                    Storage::disk('public')->delete($invoice->invoice_file);
                 }
 
+                $path = $file->storeAs('invoices', $filename, 'public');
                 $invoice->invoice_file = $path;
             }
 

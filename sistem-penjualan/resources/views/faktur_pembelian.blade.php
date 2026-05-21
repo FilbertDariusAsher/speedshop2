@@ -96,7 +96,7 @@
                         </td>
                         <td class="text-center">
                             @if($invoice->invoice_file && \Illuminate\Support\Facades\Storage::disk('public')->exists($invoice->invoice_file))
-                                <a href="{{ Storage::url($invoice->invoice_file) }}" target="_blank" class="btn btn-sm btn-outline-primary border-0 bg-light-subtle">
+                                <a href="{{ \Illuminate\Support\Facades\Storage::url($invoice->invoice_file) }}" target="_blank" class="btn btn-sm btn-outline-primary border-0 bg-light-subtle">
                                     <i class="bi bi-eye-fill me-1"></i> Lihat
                                 </a>
                             @else
