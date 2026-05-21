@@ -91,17 +91,23 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="/login">
+                        <form method="POST" action="{{ route('login.perform') }}">
                             @csrf
 
                             <div class="mb-3">
                                 <label class="form-label">Email</label>
-                                <input type="email" name="email" class="form-control form-control-lg" placeholder="contoh@domain.com" required autofocus>
+                                <input type="email" name="email" value="{{ old('email') }}" class="form-control form-control-lg" placeholder="Masukkan Email" required autofocus>
+                                @error('email')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-4">
                                 <label class="form-label">Password</label>
-                                <input id="loginPassword" type="password" name="password" class="form-control form-control-lg" placeholder="********" required>
+                                <input id="loginPassword" type="password" name="password" class="form-control form-control-lg" placeholder="Masukkan Password" required>
+                                @error('password')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
                                 <div class="form-check form-switch mt-2 text-white-75">
                                     <input class="form-check-input" type="checkbox" id="loginShowPassword" onchange="togglePassword('loginPassword')">
                                     <label class="form-check-label" for="loginShowPassword">Tampilkan password</label>
