@@ -160,32 +160,13 @@ class ProductController extends Controller
 
             $file = $request->file('invoice_file');
             $filename = 'faktur_' . time() . '_' . $product->id . '.' . $file->getClientOriginalExtension();
-            
-            // Simpan file ke disk public
-            try {
-                $path = $file->storeAs('invoices', $filename, 'public');
-                
-                if (!$path) {
-                    throw new \Exception('File tidak berhasil disimpan. storeAs() mengembalikan false/null');
-                }
-                
-                // Verifikasi file benar-benar tersimpan
-                $fullPath = storage_path('app/public/' . $path);
-                if (!file_exists($fullPath)) {
-                    throw new \Exception('File disimpan dengan path ' . $path . ' tapi file tidak ditemukan di: ' . $fullPath);
-                }
-            } catch (\Exception $e) {
-                \Log::error('File storage error', [
-                    'error' => $e->getMessage(),
-                    'filename' => $filename,
-                ]);
-                throw $e;
-            }
+            $fileContent = file_get_contents($file->getRealPath());
 
             Invoice::create([
                 'product_id' => $product->id,
                 'stock_amount' => $stockAmount,
-                'invoice_file' => $path,
+                'invoice_file' => $filename,
+                'file_content' => $fileContent,
                 'uploaded_by' => Auth::id(),
                 'harga_beli' => $hargaBeli,
             ]);
@@ -203,13 +184,30 @@ class ProductController extends Controller
     public function downloadInvoice($id)
     {
         $invoice = Invoice::findOrFail($id);
-        $path = storage_path('app/public/' . $invoice->invoice_file);
 
-        if (empty($invoice->invoice_file) || !File::exists($path)) {
+        if (empty($invoice->file_content)) {
             return redirect('/faktur-pembelian')->with('error', 'File faktur tidak tersedia.');
         }
 
-        return response()->file($path);
+        return response()->streamDownload(
+            function() use ($invoice) {
+                echo $invoice->file_content;
+            },
+            $invoice->invoice_file,
+            ['Content-Type' => $this->getMimeType($invoice->invoice_file)]
+        );
+    }
+
+    private function getMimeType($filename)
+    {
+        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        $mimes = [
+            'pdf' => 'application/pdf',
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+        ];
+        return $mimes[$extension] ?? 'application/octet-stream';
     }
 
     public function updateStock(Request $request, $id)
@@ -268,18 +266,12 @@ class ProductController extends Controller
                 $invoice->stock_amount = $validated['new_stock_amount'];
             }
 
-            // Handle file upload
             if ($request->hasFile('invoice_file')) {
                 $file = $request->file('invoice_file');
                 $filename = 'faktur_' . time() . '_' . $product->id . '.' . $file->getClientOriginalExtension();
-
-                // Hapus file lama jika ada
-                if (!empty($invoice->invoice_file) && Storage::disk('public')->exists($invoice->invoice_file)) {
-                    Storage::disk('public')->delete($invoice->invoice_file);
-                }
-
-                $path = $file->storeAs('invoices', $filename, 'public');
-                $invoice->invoice_file = $path;
+                $fileContent = file_get_contents($file->getRealPath());
+                $invoice->invoice_file = $filename;
+                $invoice->file_content = $fileContent;
             }
 
             $invoice->save();
