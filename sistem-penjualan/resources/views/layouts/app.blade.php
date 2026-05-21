@@ -68,6 +68,15 @@
         .offcanvas-lg .offcanvas-header {
             background: transparent;
             border-bottom: 1px solid rgba(255,255,255,0.12);
+            position: relative;
+            z-index: 1050;
+        }
+
+        .offcanvas-lg .offcanvas-header .btn-close {
+            position: relative;
+            z-index: 1051;
+            pointer-events: auto;
+            cursor: pointer;
         }
 
         @media (max-width: 992px) {
