@@ -68,18 +68,43 @@
         .offcanvas-lg .offcanvas-header {
             background: transparent;
             border-bottom: 1px solid rgba(255,255,255,0.12);
-            position: relative;
-            z-index: 1050;
-        }
-
-        .offcanvas-lg .offcanvas-header .btn-close {
-            position: relative;
-            z-index: 1051;
-            pointer-events: auto;
-            cursor: pointer;
         }
 
         @media (max-width: 992px) {
+            .offcanvas-lg {
+                visibility: hidden;
+                background: #fff;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                z-index: 1050;
+                transition: left 0.3s ease;
+            }
+
+            .offcanvas-lg.show {
+                visibility: visible;
+                left: 0;
+            }
+
+            .offcanvas-lg .offcanvas-header {
+                background: linear-gradient(180deg, #0a2a5e, #0f4d8b);
+                position: sticky;
+                top: 0;
+                z-index: 1051;
+            }
+
+            .offcanvas-lg .btn-close {
+                filter: brightness(0) invert(1);
+            }
+
+            .offcanvas-backdrop.show {
+                display: block;
+                opacity: 0.5;
+                z-index: 1049;
+            }
+
             .content {
                 margin-left: 0;
                 padding: 1rem;
