@@ -160,14 +160,7 @@ class ProductController extends Controller
 
             $file = $request->file('invoice_file');
             $filename = 'faktur_' . time() . '_' . $product->id . '.' . $file->getClientOriginalExtension();
-            $invoicesDir = storage_path('app/invoices');
-
-            if (!File::exists($invoicesDir)) {
-                File::makeDirectory($invoicesDir, 0755, true);
-            }
-
-            $path = 'invoices/' . $filename;
-            $file->move($invoicesDir, $filename);
+            $path = $file->storeAs('public/invoices', $filename);
 
             Invoice::create([
                 'product_id' => $product->id,
@@ -259,19 +252,13 @@ class ProductController extends Controller
             if ($request->hasFile('invoice_file')) {
                 $file = $request->file('invoice_file');
                 $filename = 'faktur_' . time() . '_' . $product->id . '.' . $file->getClientOriginalExtension();
-                $invoicesDir = storage_path('app/invoices');
+                $path = $file->storeAs('public/invoices', $filename);
 
-                if (!File::exists($invoicesDir)) {
-                    File::makeDirectory($invoicesDir, 0755, true);
+                // Hapus file lama jika ada
+                if (!empty($invoice->invoice_file) && Storage::exists($invoice->invoice_file)) {
+                    Storage::delete($invoice->invoice_file);
                 }
 
-                // Delete old file if exists
-                if (!empty($invoice->invoice_file) && File::exists(storage_path('app/' . $invoice->invoice_file))) {
-                    File::delete(storage_path('app/' . $invoice->invoice_file));
-                }
-
-                $path = 'invoices/' . $filename;
-                $file->move($invoicesDir, $filename);
                 $invoice->invoice_file = $path;
             }
 

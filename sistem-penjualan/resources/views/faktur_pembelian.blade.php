@@ -95,8 +95,8 @@
                             </span>
                         </td>
                         <td class="text-center">
-                            @if($invoice->invoice_file && \Illuminate\Support\Facades\Storage::disk('local')->exists($invoice->invoice_file))
-                                <a href="{{ route('invoice.download', $invoice->id) }}" target="_blank" class="btn btn-sm btn-outline-primary border-0 bg-light-subtle">
+                            @if($invoice->invoice_file && \Illuminate\Support\Facades\Storage::disk('public')->exists($invoice->invoice_file))
+                                <a href="{{ Storage::url($invoice->invoice_file) }}" target="_blank" class="btn btn-sm btn-outline-primary border-0 bg-light-subtle">
                                     <i class="bi bi-eye-fill me-1"></i> Lihat
                                 </a>
                             @else
@@ -273,7 +273,7 @@
                     <h5 class="modal-title" id="editModalLabel">Edit Harga Pembelian & File</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" id="editForm" enctype="multipart/form-data">
+                <form method="POST" id="editForm" action="{{ route('invoice.update', ['id' => '']) }}" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
                     <div class="modal-body">
@@ -301,7 +301,7 @@
                             <small class="text-muted">Biarkan kosong jika tidak ingin mengganti file. Format: JPG, PNG, PDF (Max 2MB)</small>
                         </div>
                         <small class="text-muted">Isi field yang ingin diperbarui saja.</small>
-                        <input type="hidden" id="editInvoiceId">
+                        <input type="hidden" id="editInvoiceId" name="invoice_id">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
