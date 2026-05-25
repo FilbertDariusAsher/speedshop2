@@ -76,8 +76,9 @@
                                     <form method="POST" action="/admin/token-nominal/{{ $nominal->id }}" class="confirm-delete-form" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-sm btn-danger confirm-delete-button" data-delete-title="Nominal Rp {{ number_format($nominal->nominal_amount, 0, ',', '.') }}">
-                                            <i class="bi bi-trash"></i>
+                                        <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 rounded-pill px-3 confirm-delete-button" data-delete-title="Nominal Rp {{ number_format($nominal->nominal_amount, 0, ',', '.') }}">
+                                            <i class="bi bi-trash3"></i>
+                                            <span>Hapus</span>
                                         </button>
                                     </form>
                                 </td>
@@ -147,17 +148,24 @@
 <!-- Modal Konfirmasi Hapus -->
 <div class="modal fade" id="deleteConfirmModalToken" tabindex="-1" aria-labelledby="deleteConfirmModalTokenLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmModalTokenLabel">Konfirmasi Hapus</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-body p-4">
+                <div class="d-flex align-items-start gap-3">
+                    <div class="rounded-circle bg-danger-subtle text-danger d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; flex-shrink: 0;">
+                        <i class="bi bi-exclamation-triangle-fill fs-4"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="modal-title fw-bold mb-2" id="deleteConfirmModalTokenLabel">Hapus Data</h5>
+                        <p class="text-muted mb-3" id="deleteConfirmMessageToken">Yakin ingin menghapus item ini?</p>
+                        <div class="alert alert-light border border-danger-subtle rounded-3 py-2 px-3 mb-0 small text-danger">
+                            <i class="bi bi-info-circle me-2"></i>Data yang dihapus tidak bisa dikembalikan.
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <p id="deleteConfirmMessageToken">Apakah Anda yakin ingin menghapus item ini?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteButtonToken">Hapus</button>
+            <div class="modal-footer border-0 px-4 pb-4 pt-0">
+                <button type="button" class="btn btn-light border rounded-pill px-4" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-danger rounded-pill px-4" id="confirmDeleteButtonToken">Ya, Hapus</button>
             </div>
         </div>
     </div>

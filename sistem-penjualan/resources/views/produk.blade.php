@@ -105,8 +105,9 @@
                                     @method('DELETE')
 
                                     <button type="button"
-                                            class="btn btn-sm btn-outline-danger btn-hapus-produk">
-                                        🗑️ Hapus
+                                            class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 rounded-pill px-3 btn-hapus-produk">
+                                        <i class="bi bi-trash3"></i>
+                                        <span>Hapus</span>
                                     </button>
                                 </form>
                                 @endif
