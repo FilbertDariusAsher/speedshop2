@@ -104,9 +104,8 @@
                                     @csrf
                                     @method('DELETE')
 
-                                    <button type="submit"
-                                            class="btn btn-sm btn-outline-danger"
-                                            onclick="return confirm('Yakin hapus produk ini?')">
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-danger btn-hapus-produk">
                                         🗑️ Hapus
                                     </button>
                                 </form>
@@ -124,6 +123,9 @@
 
                 </table>
             </div>
+
+            {{-- Modal konfirmasi hapus produk --}}
+            @include('components.modal-hapus-produk')
 
         </div>
     </div>
