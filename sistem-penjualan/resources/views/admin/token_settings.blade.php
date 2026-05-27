@@ -43,7 +43,7 @@
                         <input type="number" name="profit" class="form-control" placeholder="3000" value="0" required>
                     </div>
                     <div class="col-md-3">
-                        <button type="submit" class="btn btn-warning w-100 fw-semibold">
+                        <button type="submit" class="btn btn-success w-100 fw-semibold">
                             <i class="bi bi-plus-lg me-1"></i>Tambah Nominal
                         </button>
                     </div>
@@ -70,17 +70,19 @@
                                 <td>+ Rp {{ number_format($nominal->profit, 0, ',', '.') }}</td>
                                 <td class="fw-bold text-success">Rp {{ number_format($nominal->harga_final + $nominal->profit, 0, ',', '.') }}</td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#editTokenModal{{ $nominal->id }}" title="Edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                    <form method="POST" action="/admin/token-nominal/{{ $nominal->id }}" class="confirm-delete-form" style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 rounded-pill px-3 confirm-delete-button" data-delete-title="Nominal Rp {{ number_format($nominal->nominal_amount, 0, ',', '.') }}">
-                                            <i class="bi bi-trash3"></i>
-                                            <span>Hapus</span>
+                                    <div class="d-flex align-items-center justify-content-center gap-2">
+                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editTokenModal{{ $nominal->id }}" title="Edit">
+                                            <i class="bi bi-pencil"></i>
                                         </button>
-                                    </form>
+                                        <form method="POST" action="/admin/token-nominal/{{ $nominal->id }}" class="confirm-delete-form" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 rounded-pill px-3 confirm-delete-button" data-delete-title="Nominal Rp {{ number_format($nominal->nominal_amount, 0, ',', '.') }}">
+                                                <i class="bi bi-trash3"></i>
+                                                <span>Hapus</span>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
 

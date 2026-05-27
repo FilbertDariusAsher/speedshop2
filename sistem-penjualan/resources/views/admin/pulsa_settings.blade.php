@@ -127,17 +127,19 @@
                                                         <td>+ Rp {{ number_format($nominal->markup, 0, ',', '.') }}</td>
                                                         <td class="fw-bold text-success">Rp {{ number_format($nominal->getTotalPrice(), 0, ',', '.') }}</td>
                                                         <td>
-                                                            <button type="button" class="btn btn-sm btn-warning me-1" data-bs-toggle="modal" data-bs-target="#editNominalModal{{ $nominal->id }}" title="Edit">
-                                                                <i class="bi bi-pencil"></i>
-                                                            </button>
-                                                            <form method="POST" action="/admin/pulsa-nominal/{{ $nominal->id }}" class="confirm-delete-form" style="display: inline;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 rounded-pill px-3 confirm-delete-button" data-delete-title="Nominal Rp {{ number_format($nominal->nominal_amount * 1000, 0, ',', '.') }}">
-                                                                    <i class="bi bi-trash3"></i>
-                                                                    <span>Hapus</span>
+                                                            <div class="d-flex align-items-center gap-2">
+                                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editNominalModal{{ $nominal->id }}" title="Edit">
+                                                                    <i class="bi bi-pencil"></i>
                                                                 </button>
-                                                            </form>
+                                                                <form method="POST" action="/admin/pulsa-nominal/{{ $nominal->id }}" class="confirm-delete-form" style="display: inline;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 rounded-pill px-3 confirm-delete-button" data-delete-title="Nominal Rp {{ number_format($nominal->nominal_amount * 1000, 0, ',', '.') }}">
+                                                                        <i class="bi bi-trash3"></i>
+                                                                        <span>Hapus</span>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
                                                         </td>
                                                     </tr>
 
