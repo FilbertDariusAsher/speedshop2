@@ -70,11 +70,11 @@
                                     {{ $product->stock }}
                                 </span>
                                 <span class="text-muted">Unit</span>
-                                @if($product->stock <= 5)
-                                    <div class="text-danger fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">STOK MENIPIS!</div>
-                                    @elseif($product->stock == 0)
+                                @if($product->stock == 0)
                                     <div class="text-danger fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">STOK HABIS!</div>
-                                    @else
+                                @elseif($product->stock <= 5)
+                                    <div class="text-danger fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">STOK MENIPIS!</div>
+                                @else
                                     <div class="text-success fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">STOK CUKUP</div>
                                 @endif
                             </div>
