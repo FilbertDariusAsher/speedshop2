@@ -136,7 +136,7 @@ table.items td {
                 </td>
                 <td class="text-right" style="font-size:9px; color:#666;">
                     <strong>Lubuk Linggau</strong><br>
-                    Jl. Yos Sudarso No. 45
+                    Jl. Sultan Mahmud Badaruddin II, Marga Rahayu,<br>Kec. Lubuk Linggau Sel. II, Kota Lubuklinggau,<br>Sumatera Selatan
                 </td>
             </tr>
         </table>
@@ -146,7 +146,7 @@ table.items td {
         <table style="width:100%">
             <tr>
                 <td width="50%">
-                    <div><span class="label">No Nota</span>: #{{ $transaction->id }}</div>
+                    <div><span class="label">No Nota</span>: SS2-{{ $transaction->id }}</div>
                     <div><span class="label">Tanggal</span>: {{ \Carbon\Carbon::parse($transaction->transaction_date)->format('d/m/Y') }}</div>
                 </td>
                 <td width="50%">
