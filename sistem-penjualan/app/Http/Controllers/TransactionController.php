@@ -159,11 +159,9 @@ class TransactionController extends Controller
 
                 return redirect('/transaksi')->with('success', 'Transaksi berhasil!');
             } catch (\Exception $pdfError) {
-                // Transaksi sudah berhasil disimpan, hanya PDF yang gagal
-                return redirect('/transaksi')->with('success', 'Transaksi berhasil! (Nota PDF gagal digenerate, silakan cetak manual dari riwayat)');
+                return redirect('/transaksi')->with('success', 'Transaksi berhasil! Silakan cetak nota dari menu riwayat.');
             }
         } catch (\Exception $e) {
-            // Log error untuk debugging
             \Log::error('Transaction Error: ' . $e->getMessage());
             return back()->with('error', 'Terjadi kesalahan saat menyimpan transaksi: ' . $e->getMessage());
         }
