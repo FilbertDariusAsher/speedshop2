@@ -28,6 +28,7 @@
                         <select name="type" class="form-select" required>
                             <option value="HP" {{ $product->type == 'HP' ? 'selected' : '' }}>HP (Handphone)</option>
                             <option value="Aksesoris" {{ $product->type == 'Aksesoris' ? 'selected' : '' }}>Aksesoris</option>
+                            <option value="Produk Digital" {{ $product->type == 'Produk Digital' ? 'selected' : '' }}>Produk Digital</option>
                         </select>
                     </div>
                 </div>

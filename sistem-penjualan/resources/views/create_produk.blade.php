@@ -27,6 +27,7 @@
                         <select name="type" class="form-select" required>
                             <option value="HP">HP</option>
                             <option value="Aksesoris">Aksesoris</option>
+                            <option value="Produk Digital">Produk Digital</option>
                         </select>
                     </div>
                     <div class="col-md-6">

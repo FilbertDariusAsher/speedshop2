@@ -58,7 +58,7 @@ class ProductController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:HP,Aksesoris',
+            'type' => 'required|in:HP,Aksesoris,Produk Digital',
             'price' => 'required|numeric|min:0',
             'harga_jual' => 'nullable|numeric|min:0',
         ]);
@@ -83,7 +83,7 @@ class ProductController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:HP,Aksesoris',
+            'type' => 'required|in:HP,Aksesoris,Produk Digital',
             'price' => 'required|numeric|min:0',
             'harga_jual' => 'nullable|numeric|min:0',
         ]);

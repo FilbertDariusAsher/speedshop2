@@ -42,6 +42,7 @@
                             <option value="" selected disabled> Pilih Kategori </option>
                             <option value="HP">HP (Handphone)</option>
                             <option value="Aksesoris">Aksesoris</option>
+                            <option value="Produk Digital">Produk Digital</option>
                         </select>
                     </div>
 

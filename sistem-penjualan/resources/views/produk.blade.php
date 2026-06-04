@@ -43,6 +43,7 @@
                     <option value="">Semua Tipe</option>
                     <option value="HP" {{ request('type') == 'HP' ? 'selected' : '' }}>HP</option>
                     <option value="Aksesoris" {{ request('type') == 'Aksesoris' ? 'selected' : '' }}>Aksesoris</option>
+                    <option value="Produk Digital" {{ request('type') == 'Produk Digital' ? 'selected' : '' }}>Produk Digital</option>
                 </select>
             </div>
             <div class="col-md-2">

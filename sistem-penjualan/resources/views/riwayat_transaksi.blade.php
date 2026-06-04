@@ -18,6 +18,7 @@
                     <option value="">Semua</option>
                     <option value="HP" {{ request('category') == 'HP' ? 'selected' : '' }}>HP</option>
                     <option value="Aksesoris" {{ request('category') == 'Aksesoris' ? 'selected' : '' }}>Aksesoris</option>
+                    <option value="Produk Digital" {{ request('category') == 'Produk Digital' ? 'selected' : '' }}>Produk Digital</option>
                 </select>
             </div>
             <div class="col-md-3">
