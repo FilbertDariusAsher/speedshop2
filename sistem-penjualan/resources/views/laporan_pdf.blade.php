@@ -153,7 +153,7 @@
     <div class="header">
         <div class="company-info">
             <h1>SPEEDSHOP 2</h1>
-            <p>Handphone • Accessories • Service</p>
+            <p>Handphone • Accessories • Layanan Digital</p>
             <p>Jl. Sultan Mahmud Badaruddin II, Marga Rahayu,<br>Kec. Lubuk Linggau Sel. II, Kota Lubuklinggau</p>
         </div>
     </div>
