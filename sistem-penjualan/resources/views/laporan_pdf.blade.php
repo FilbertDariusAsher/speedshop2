@@ -154,7 +154,7 @@
         <div class="company-info">
             <h1>SPEEDSHOP 2</h1>
             <p>Handphone • Accessories • Service</p>
-            <p>Jl. Yos Sudarso No. 45, Lubuk Linggau</p>
+            <p>Jl. Sultan Mahmud Badaruddin II, Marga Rahayu,<br>Kec. Lubuk Linggau Sel. II, Kota Lubuklinggau</p>
         </div>
     </div>
 
@@ -226,9 +226,5 @@
             @endforelse
         </tbody>
     </table>
-
-    <div class="footer">
-        <p>* Laporan ini digenerate secara otomatis oleh sistem SPEEDSHOP 2</p>
-    </div>
 </body>
 </html>
